@@ -45,19 +45,6 @@ async function main() {
         await page.getByRole('link',{name:'Little Loop Op Shop',exact:true}).waitFor();
         assert.equal(new URL(page.url()).search,'');
         assert.equal(await page.getByRole('searchbox').inputValue(),'');
-        if (width === 390) {
-          await check('/find/?q=0800','Find op shops');
-          assert.equal(await page.locator('#shop-map').isVisible(),false);
-          await page.getByRole('button',{name:'Map',exact:true}).click();
-          await page.getByText('1 shop on the map',{exact:true}).waitFor();
-          await page.locator('.leaflet-marker-icon').click();
-          await page.locator('.leaflet-popup').getByRole('link',{name:'Little Loop Op Shop'}).waitFor();
-          await page.getByRole('searchbox').fill('6003');
-          await page.getByRole('button',{name:'Search',exact:true}).click();
-          await page.locator('.leaflet-marker-icon[title="Again & Co. Op Shop"]').waitFor();
-          await page.getByRole('button',{name:'List',exact:true}).click();
-          await page.getByRole('link',{name:'Again & Co. Op Shop'}).waitFor();
-        }
         const missing = await page.goto(new URL('/missing-preview-test/',base).href);
         assert.equal(missing?.status(),404);
         assert.equal(errors.length,0,errors.join('\n'));

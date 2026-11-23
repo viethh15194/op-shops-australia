@@ -19,49 +19,6 @@ const indexes = new Map<string,Promise<Shop[]>>();
 let origin: [number,number] | null = null;
 let limit = 12;
 let generation = 0;
-const listButton = document.querySelector<HTMLButtonElement>('#show-list');
-const mapButton = document.querySelector<HTMLButtonElement>('#show-map');
-const mapPanel = document.querySelector<HTMLElement>('#map-panel');
-let mapMode = false;
-let mapShops: Shop[] = [];
-let moreAvailable = false;
-let mapUpdate = 0;
-
-async function refreshMap() {
-  if (!mapMode || !mapPanel) return;
-  const status = mapPanel.querySelector<HTMLElement>('[role="status"]')!;
-  const canvas = mapPanel.querySelector<HTMLElement>('#shop-map')!;
-  const version = ++mapUpdate;
-  const shops = mapShops.filter(shop => shop.coords?.length === 2 && shop.coords.every(Number.isFinite));
-  canvas.hidden = !shops.length;
-  status.textContent = shops.length ? 'Loading map…' : 'No matching shops have a map location.';
-  if (!shops.length) return;
-  try {
-    const { showShopMap } = await import('./shop-map');
-    await showShopMap(canvas,shops,() => mapMode && version === mapUpdate);
-    if (mapMode && version === mapUpdate) status.textContent = shops.length === 1
-      ? '1 shop on the map' : shops.length + ' shops on the map';
-  } catch {
-    if (mapMode && version === mapUpdate) {
-      canvas.hidden = true;
-      status.textContent = 'The map could not load. Switch to List to see the shops.';
-    }
-  }
-}
-
-function switchView(showMap: boolean) {
-  if (!mapPanel) return;
-  mapMode = showMap;
-  listButton?.setAttribute('aria-pressed',String(!showMap));
-  mapButton?.setAttribute('aria-pressed',String(showMap));
-  mapPanel.hidden = !showMap;
-  results.hidden = showMap;
-  more.hidden = showMap || !moreAvailable;
-  if (showMap) void refreshMap();
-}
-listButton?.addEventListener('click',() => switchView(false));
-mapButton?.addEventListener('click',() => switchView(true));
-if (mapButton?.parentElement) mapButton.parentElement.hidden = false;
 
 function restore() {
   const parameters = new URLSearchParams(location.search);
@@ -113,16 +70,12 @@ async function render(focusIndex?: number) {
   if (focusIndex === undefined) {
     results.replaceChildren();
     more.hidden = true;
-    mapShops = [];
-    moreAvailable = false;
-    void refreshMap();
     summary.textContent = 'Loading shops…';
   }
   try {
     const lists = await Promise.all((state ? [state] : states).map(load));
     if (turn !== generation) return;
     const matches = findShops(lists.flat(),filters);
-    mapShops = matches.map(({shop}:{shop:Shop}) => shop);
     const visible = matches.slice(0,limit);
     const existingAd = results.querySelector('[data-ad]');
     results.replaceChildren();
@@ -138,9 +91,7 @@ async function render(focusIndex?: number) {
       retry.hidden = true;
       feedback.hidden = false;
     }
-    moreAvailable = limit < count;
-    more.hidden = mapMode || !moreAvailable;
-    if (focusIndex === undefined) void refreshMap();
+    more.hidden = limit >= count;
     if (focusIndex !== undefined) results.querySelectorAll<HTMLAnchorElement>('[data-name]')[focusIndex]?.focus();
     dispatchEvent(new Event('opshop:ads'));
   } catch {
