@@ -11,23 +11,14 @@ permissions:
 
 jobs:
   verify:
-    permissions:
-      contents: write
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v6
-        with:
-          fetch-depth: 0
       - uses: actions/setup-node@v6
         with:
           node-version-file: .node-version
-      - name: Resolve dependency lockfile
-        run: |
-          if test ! -f package-lock.json; then
-            npm install --package-lock-only --no-audit --no-fund
-          fi
-          npm ci --no-audit --no-fund
+      - run: npm ci --no-audit --no-fund
       - run: npm test
       - run: npm run build
       - name: Install Chromium for smoke checks
@@ -44,18 +35,6 @@ jobs:
             sleep 1
           done
           NODE_PATH="$RUNNER_TEMP/qa/node_modules" node scripts/smoke.cjs http://127.0.0.1:4321
-      - name: Commit the verified lockfile to the preview branch
-        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository && github.head_ref == 'preview/astro-verification'
-        env:
-          PREVIEW_HEAD: ${{ github.event.pull_request.head.sha }}
-        run: |
-          git add package-lock.json
-          if git diff --cached --quiet; then exit 0; fi
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "Commit verified npm lockfile"
-          lock_commit="$(git commit-tree "$(git rev-parse HEAD^{tree})" -p "$PREVIEW_HEAD" -m 'Commit verified npm lockfile')"
-          git push origin "$lock_commit:refs/heads/preview/astro-verification"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
