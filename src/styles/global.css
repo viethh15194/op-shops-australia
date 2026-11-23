@@ -79,3 +79,8 @@ button:disabled{opacity:.6;cursor:wait}
 .search-feedback p{margin:0 0 .75rem}
 .hours dd{min-width:0;overflow-wrap:anywhere}
 @media(max-width:480px){.search-row>button{width:100%}.search-feedback button{width:100%}}
+
+.view-switch{display:flex;gap:.3rem;margin-bottom:1rem}
+.view-switch button{min-width:4.6rem}
+.view-switch button[aria-pressed="false"]{background:var(--white);color:var(--green)}
+.shop-map{height:clamp(300px,56vh,620px);border:1px solid var(--line);border-radius:.9rem;overflow:hidden;isolation:isolate;background:var(--light)}
