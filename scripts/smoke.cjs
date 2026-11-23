@@ -34,6 +34,17 @@ async function main() {
         await page.getByRole('link',{name:'View shop',exact:true}).click();
         await page.getByRole('heading',{name:'Little Loop Op Shop',exact:true,level:1}).waitFor();
         assert.match(await page.locator('meta[name="robots"]').getAttribute('content'),/noindex/);
+        await check('/find/?q=6003','Find op shops');
+        await page.getByRole('link',{name:'Again & Co. Op Shop',exact:true}).click();
+        await page.getByText('Hours unavailable.',{exact:true}).waitFor();
+        await page.getByRole('link',{name:'Find shops in this area'}).click();
+        await page.getByRole('searchbox').fill('no-matching-shop-example');
+        await page.getByRole('button',{name:'Search',exact:true}).click();
+        await page.getByRole('heading',{name:'No shops found'}).waitFor();
+        await page.getByRole('button',{name:'Clear search and filters'}).click();
+        await page.getByRole('link',{name:'Little Loop Op Shop',exact:true}).waitFor();
+        assert.equal(new URL(page.url()).search,'');
+        assert.equal(await page.getByRole('searchbox').inputValue(),'');
         const missing = await page.goto(new URL('/missing-preview-test/',base).href);
         assert.equal(missing?.status(),404);
         assert.equal(errors.length,0,errors.join('\n'));
