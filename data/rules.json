@@ -1,0 +1,30 @@
+{
+  "exclude": [],
+  "shopCategories": [
+    "thrift store",
+    "second hand store",
+    "second hand shop",
+    "op shop",
+    "charity shop",
+    "used clothing store"
+  ],
+  "donationCategories": [
+    "donations center",
+    "donation center",
+    "donation centre",
+    "recycling center"
+  ],
+  "chains": [
+    "Salvos",
+    "Vinnies",
+    "Red Cross",
+    "Lifeline",
+    "Savers",
+    "Good Sammy",
+    "Brotherhood of St Laurence",
+    "Anglicare",
+    "RSPCA"
+  ],
+  "metro": {},
+  "timezones": {}
+}

@@ -1,0 +1,27 @@
+---
+import Layout from '../../../components/Layout.astro';
+import ShopCard from '../../../components/ShopCard.astro';
+import Ad from '../../../components/Ad.astro';
+import { allAreas,localities,areaPath } from '../../../lib/catalog';
+import { distance } from '../../../lib/shared.mjs';
+export function getStaticPaths() {
+  return allAreas.map(area => ({params:{state:area.state.toLowerCase(),area:area.slug},props:{area}}));
+}
+const {area} = Astro.props;
+const sunday = area.shops.filter(shop => (shop.hours?.[6]?.length ?? 0) > 0).length;
+const location = [area.name,area.state,area.postcode].filter(Boolean).join(' ');
+const first = area.shops.find(shop => shop.coords)?.coords;
+const nearby = localities.filter(other => other !== area && other.state === area.state)
+  .map(other => ({other,km:distance(first,other.shops.find(shop => shop.coords)?.coords)}))
+  .filter(({km}) => km <= 30).sort((a,b) => a.km-b.km).slice(0,5);
+---
+<Layout title={'Op shops in ' + location} description={'Browse ' + area.shops.length + ' op shop listings in ' + location + ', with addresses and available opening hours.'}>
+  <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">></span><span aria-current="page">{location}</span></nav>
+  <section class="page-head"><p class="eyebrow">{area.state} {area.postcode}</p><h1>Op shops in {area.name}</h1>
+    <p>{area.shops.length} {area.shops.length === 1 ? 'listing' : 'listings'} in {location}.{sunday > 0 && ' ' + sunday + ' list Sunday opening hours.'}</p>
+    <a href={'/find/?' + new URLSearchParams({state:area.state,q:area.postcode || area.name})}>Search this area ?</a>
+  </section>
+  <div class="results">{area.shops.map(shop => <ShopCard shop={shop} />)}</div>
+  {nearby.length > 0 && <section class="section"><h2>Nearby areas</h2><div class="area-grid">{nearby.map(({other}) => <a class="area-card" href={areaPath(other)}>{other.name} {other.postcode}<span>?</span></a>)}</div></section>}
+  <Ad placement="footer" />
+</Layout>

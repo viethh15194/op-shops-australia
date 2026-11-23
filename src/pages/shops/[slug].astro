@@ -1,0 +1,51 @@
+---
+import Layout from '../../components/Layout.astro';
+import Ad from '../../components/Ad.astro';
+import { shops,shopPath,nearby,localities,areaPath,type Shop } from '../../lib/catalog';
+import { days,directions } from '../../lib/shared.mjs';
+import config from '../../../site.config.mjs';
+export function getStaticPaths() {
+  return shops.map(shop => ({params:{slug:shop.slug},props:{shop}}));
+}
+const {shop}: {shop:Shop} = Astro.props;
+const route = directions(shop);
+const area = localities.find(area => area.shops.some(item => item.id === shop.id));
+const recommendations = nearby(shop);
+const report = config.contact ? 'mailto:' + config.contact + '?subject=' + encodeURIComponent('Listing correction: ' + shop.name) : '';
+const updated = shop.importedAt ? new Intl.DateTimeFormat('en-AU',{dateStyle:'long',timeZone:'UTC'}).format(new Date(shop.importedAt)) : '';
+const structured = !config.demo ? JSON.stringify({
+  '@context':'https://schema.org','@type':'Store',name:shop.name,
+  address:{'@type':'PostalAddress',streetAddress:shop.address,addressLocality:shop.locality,addressRegion:shop.state,postalCode:shop.postcode,addressCountry:'AU'},
+  url:new URL(shopPath(shop),config.url).href,telephone:shop.phone,
+}).replaceAll('<','\\u003c') : '';
+---
+<Layout title={shop.name + ' in ' + (shop.locality || shop.state)} description={'Address and listed opening hours for ' + shop.name + ' in ' + (shop.locality || shop.state) + '.'}>
+  <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">></span>{area && <><a href={areaPath(area)}>{area.name}</a><span aria-hidden="true">></span></>}<span aria-current="page">{shop.name}</span></nav>
+  <section class="page-head">
+    <p class="eyebrow">{shop.locality} {shop.state} {shop.postcode}</p>
+    <h1>{shop.name}</h1><p>{shop.address}</p>
+    {shop.demo && <p class="callout">Sample listing � This shop is fictional.</p>}
+    {shop.temporary && <p class="callout">Temporarily closed</p>}
+    <div class="actions">
+      {route && <a class="button" href={route} rel="noopener noreferrer">Get directions ?</a>}
+      {shop.phone && <a class="button secondary" href={'tel:' + shop.phone.replace(/[^\d+]/g,'')} aria-label={'Call ' + shop.phone}>Call {shop.phone}</a>}
+      {shop.website && <a class="button secondary" href={shop.website} rel="noopener noreferrer">Visit website ?</a>}
+      {shop.maps && <a href={shop.maps} rel="noopener noreferrer">View on Google Maps ?</a>}
+    </div>
+  </section>
+  <section class="detail-grid">
+    <div class="detail-panel"><h2>Listed opening hours</h2>
+      {shop.hoursText?.some(Boolean) ? <dl class="hours">{days.map((day,index) => <div><dt>{day}</dt><dd>{shop.hours?.[index] ? shop.hoursText?.[index] : 'Hours unavailable'}</dd></div>)}</dl> : <p>Hours unavailable.</p>}
+      <p class="muted">Public holiday hours may differ.</p>
+    </div>
+    <div class="detail-panel"><h2>Listing information</h2>
+      {shop.rating != null && <p>Google rating {shop.rating}/5 ({shop.reviews} reviews)</p>}
+      {updated && <p>Imported on <time datetime={shop.importedAt}>{updated}</time>.</p>}
+      {report && <p><a href={report}>Report incorrect information</a></p>}
+      {!report && config.demo && <p>A contact address will be added before launch.</p>}
+    </div>
+  </section>
+  {recommendations.length > 0 && <section class="section"><h2>Nearby op shops</h2><ul class="plain-list">{recommendations.map(({shop:other,km}) => <li><a href={shopPath(other)}>{other.name}</a><span>{other.locality} � Approx. distance {km < 1 ? '<1' : Math.round(km)} km</span></li>)}</ul></section>}
+  <Ad placement="footer" />
+  {structured && <script type="application/ld+json" is:inline set:html={structured}></script>}
+</Layout>

@@ -1,0 +1,2 @@
+title,address,city,state,postalCode,countryCode,placeId,categoryName,location.lat,location.lng,openingHours.0.day,openingHours.0.hours
+"Example Op Shop","Illustrative location, Darwin City NT 0800, Australia",Darwin City,NT,0800,AU,sample-darwin,Thrift store,-12.463,130.845,Sunday,"10 AM to 3 PM"

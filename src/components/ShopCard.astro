@@ -1,0 +1,15 @@
+---
+import { shopPath, type Shop } from '../lib/catalog';
+import { directions } from '../lib/shared.mjs';
+interface Props { shop: Shop; }
+const { shop } = Astro.props;
+const route = directions(shop);
+---
+<article class="shop-card">
+  <p class="eyebrow">{shop.locality || shop.state} {shop.locality && shop.state} {shop.postcode}{shop.demo && ' � Sample'}</p>
+  <h2><a href={shopPath(shop)}>{shop.name}</a></h2>
+  <p>{shop.address}</p>
+  {shop.temporary && <p class="status">Temporarily closed</p>}
+  {shop.rating != null && <p class="status">Google rating {shop.rating}/5 ({shop.reviews} reviews)</p>}
+  <div class="actions"><a href={shopPath(shop)}>View shop</a>{route && <a href={route} rel="noopener noreferrer">Directions ?</a>}</div>
+</article>

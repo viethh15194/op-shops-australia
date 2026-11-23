@@ -1,0 +1,19 @@
+{
+  "name": "op-shops-australia",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24 <25"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "test": "node --test",
+    "import": "node scripts/import.mjs",
+    "update": "node scripts/update.mjs"
+  },
+  "dependencies": {
+    "astro": "7.4.11"
+  }
+}

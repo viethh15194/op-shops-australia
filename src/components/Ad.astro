@@ -1,0 +1,28 @@
+---
+import config from '../../site.config.mjs';
+const { placement } = Astro.props;
+const slot = placement === 'results' ? config.ads.results : config.ads.footer;
+---
+{config.ads.enabled && <aside class="advert" data-ad data-client={config.ads.publisher} data-slot={slot} aria-label="Advertisement">
+  <span>Advertisement</span>
+</aside>}
+<script>
+  function loadAds() {
+    for (const region of document.querySelectorAll<HTMLElement>('[data-ad]:not([data-loaded])')) {
+      if (region.hidden) continue;
+      region.dataset.loaded = 'true';
+      const unit = document.createElement('ins');
+      unit.className = 'adsbygoogle';
+      unit.style.display = 'block';
+      unit.dataset.adClient = region.dataset.client;
+      unit.dataset.adSlot = region.dataset.slot;
+      unit.dataset.adFormat = 'auto';
+      unit.dataset.fullWidthResponsive = 'true';
+      region.append(unit);
+      const browser = window as Window & { adsbygoogle?: unknown[] };
+      (browser.adsbygoogle ??= []).push({});
+    }
+  }
+  addEventListener('opshop:ads',loadAds);
+  if (!document.querySelector('#results')) requestAnimationFrame(loadAds);
+</script>

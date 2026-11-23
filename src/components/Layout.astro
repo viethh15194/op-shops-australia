@@ -1,0 +1,33 @@
+---
+import config from '../../site.config.mjs';
+import '../styles/global.css';
+const { title, description = 'Find Australian op shops, check listed hours and get directions.', noindex = false, canonicalPath = Astro.url.pathname } = Astro.props;
+const canonical = config.url && !noindex ? new URL(canonicalPath,config.url).href : undefined;
+---
+<!doctype html>
+<html lang="en-AU">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#f8f6ef" />
+    <title>{title} | {config.name}</title>
+    {(config.demo || noindex) && <meta name="robots" content="noindex, follow" />}
+    {canonical && <link rel="canonical" href={canonical} />}
+    {config.ads.enabled && !noindex && <script is:inline async src={'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=' + config.ads.publisher} crossorigin="anonymous"></script>}
+    {config.ads.enabled && canonicalPath === '/find/' && <script is:inline async src={'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=' + config.ads.publisher} crossorigin="anonymous"></script>}
+  </head>
+  <body>
+    <a href="#main" class="skip">Skip to content</a>
+    <header class="site-header"><div class="wrap header-row">
+      <a class="brand" href="/"><span class="mark" aria-hidden="true">?</span>{config.name}</a>
+      <nav aria-label="Main"><a href="/find/">Find shops</a><a href="/about/">About</a></nav>
+    </div></header>
+    {config.demo && <div class="notice"><div class="wrap">Preview site � Shop details may be illustrative.</div></div>}
+    <main id="main" class="wrap"><slot /></main>
+    <footer class="site-footer"><div class="wrap footer-row">
+      <a class="brand" href="/">{config.name}</a>
+      <nav aria-label="Footer"><a href="/contact/">Contact</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></nav>
+    </div></footer>
+  </body>
+</html>

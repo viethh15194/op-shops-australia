@@ -1,0 +1,18 @@
+---
+import Layout from '../components/Layout.astro';
+import config from '../../site.config.mjs';
+export function getStaticPaths() {
+  return ['about','contact','privacy','terms'].map(info => ({params:{info},props:{info}}));
+}
+const {info} = Astro.props;
+const title = ({about:'About the directory',contact:'Contact',privacy:'Privacy',terms:'Terms of use'} as Record<string,string>)[info];
+---
+<Layout title={title} description={title + ' for ' + config.name + '.'}>
+  <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">></span><span aria-current="page">{title}</span></nav>
+  <section class="page-head prose"><h1>{title}</h1>
+    {info === 'about' && <><p>{config.name} helps people find Australian op shops, look up listed opening hours and open directions.</p><p>The directory uses imported listings. If you're making a special trip, check with the shop for current hours.</p></>}
+    {info === 'contact' && <>{config.contact ? <p>For corrections or questions, email <a href={'mailto:' + config.contact}>{config.contact}</a>. For a correction, include the shop name, suburb and the information that needs updating.</p> : <p>A contact address will be added before launch.</p>}</>}
+    {info === 'privacy' && <><p>Searches use the directory data in your browser. Search terms, filters and sort preferences appear in the search URL so you can share it or return to it.</p><p>If you choose Use my location and grant permission, your browser uses your location to estimate straight-line distance. The directory does not send your coordinates to its servers or put them in the search URL.</p><p>Links to Google Maps and individual shops open services that have their own privacy practices.</p>{config.ads.enabled && <p>Google AdSense serves advertisements on this directory. Google and advertising partners may use cookies or similar identifiers. See <a href="https://policies.google.com/technologies/partner-sites">how Google uses information from partner sites</a>.</p>}</>}
+    {info === 'terms' && <><p>The directory provides general information about listed shops. Addresses, hours and other details can change between imports. Contact the shop directly to confirm travel, opening hours or donation arrangements.</p><p>Google ratings, where displayed, are attributed to Google. External websites have their own terms.</p></>}
+  </section>
+</Layout>

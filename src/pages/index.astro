@@ -1,0 +1,33 @@
+---
+import Layout from '../components/Layout.astro';
+import Ad from '../components/Ad.astro';
+import { metros,localities,areaPath,usingFixtures } from '../lib/catalog';
+const areas = [...metros,...localities].slice(0,8);
+---
+<Layout title="Find op shops near you in Australia">
+  <section class="hero">
+    <div class="hero-content">
+      <p class="eyebrow">Australia's op shop directory</p>
+      <h1>Find op shops near you in Australia.</h1>
+      <p class="intro">Look up shop addresses, listed opening hours and directions before you head out.</p>
+      <form class="home-search" action="/find/" method="get">
+        <label for="home-query">Suburb, postcode or shop name</label>
+        <div class="search-row"><input id="home-query" name="q" type="search" placeholder="e.g. Brunswick or 3056" /><button>Find op shops</button></div>
+        <button class="quiet" type="submit" name="near" value="1">? Use my location</button>
+      </form>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <div class="thread"></div>
+      <div class="tag"><span class="tag-hole"></span><span class="tag-star">?</span><span class="tag-text">OP<br />SHOP</span></div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="section-heading"><h2>{usingFixtures ? 'Explore sample areas' : 'Browse by area'}</h2><a href="/find/">Browse all shops ?</a></div>
+    <div class="area-grid">
+      {areas.map(area => <a class="area-card" href={areaPath(area)}>
+        <span><strong>{area.name}</strong><small>{area.state} {area.postcode} � {area.shops.length} {usingFixtures ? 'sample ' : ''}{area.shops.length === 1 ? 'shop' : 'shops'}</small></span><span aria-hidden="true">?</span>
+      </a>)}
+    </div>
+  </section>
+  <Ad placement="footer" />
+</Layout>

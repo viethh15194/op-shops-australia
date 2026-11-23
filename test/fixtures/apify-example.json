@@ -1,0 +1,22 @@
+[
+  {
+    "title": "Example Op Shop",
+    "address": "Illustrative location, Darwin City NT 0800, Australia",
+    "city": "Darwin City",
+    "state": "NT",
+    "postalCode": "0800",
+    "countryCode": "AU",
+    "placeId": "sample-darwin",
+    "categoryName": "Thrift store",
+    "location": {
+      "lat": -12.463,
+      "lng": 130.845
+    },
+    "openingHours": [
+      {
+        "day": "Sunday",
+        "hours": "10 AM to 3 PM"
+      }
+    ]
+  }
+]

@@ -1,0 +1,418 @@
+[
+  {
+    "id": "sample-01",
+    "name": "Second Turn Op Shop",
+    "slug": "sample-01-second-turn-op-shop",
+    "locality": "Brunswick",
+    "state": "VIC",
+    "postcode": "3056",
+    "metro": "Melbourne",
+    "coords": [
+      -37.767,
+      144.962
+    ],
+    "address": "Illustrative location, Brunswick VIC 3056",
+    "timezone": "Australia/Melbourne",
+    "chain": "Second Turn",
+    "temporary": false,
+    "demo": true,
+    "hours": [
+      [
+        [
+          600,
+          1020
+        ]
+      ],
+      [
+        [
+          600,
+          1020
+        ]
+      ],
+      [
+        [
+          600,
+          1020
+        ]
+      ],
+      [
+        [
+          600,
+          1020
+        ]
+      ],
+      [
+        [
+          600,
+          1020
+        ]
+      ],
+      [
+        [
+          600,
+          1020
+        ]
+      ],
+      [
+        [
+          660,
+          900
+        ]
+      ]
+    ],
+    "hoursText": [
+      "10 am - 5 pm",
+      "10 am - 5 pm",
+      "10 am - 5 pm",
+      "10 am - 5 pm",
+      "10 am - 5 pm",
+      "10 am - 5 pm",
+      "11 am - 3 pm"
+    ]
+  },
+  {
+    "id": "sample-02",
+    "name": "Mend & Make Op Shop",
+    "slug": "sample-02-mend-make-op-shop",
+    "locality": "Fitzroy",
+    "state": "VIC",
+    "postcode": "3065",
+    "metro": "Melbourne",
+    "coords": [
+      -37.8,
+      144.98
+    ],
+    "address": "Illustrative location, Fitzroy VIC 3065",
+    "timezone": "Australia/Melbourne",
+    "temporary": false,
+    "demo": true,
+    "hours": [
+      [
+        [
+          600,
+          1020
+        ]
+      ],
+      [
+        [
+          600,
+          1020
+        ]
+      ],
+      [
+        [
+          600,
+          1020
+        ]
+      ],
+      [
+        [
+          600,
+          1020
+        ]
+      ],
+      [
+        [
+          600,
+          1020
+        ]
+      ],
+      [
+        [
+          600,
+          1020
+        ]
+      ],
+      []
+    ],
+    "hoursText": [
+      "10 am - 5 pm",
+      "10 am - 5 pm",
+      "10 am - 5 pm",
+      "10 am - 5 pm",
+      "10 am - 5 pm",
+      "10 am - 5 pm",
+      "Closed"
+    ]
+  },
+  {
+    "id": "sample-03",
+    "name": "The Rewear Room",
+    "slug": "sample-03-the-rewear-room",
+    "locality": "Newtown",
+    "state": "NSW",
+    "postcode": "2042",
+    "metro": "Sydney",
+    "coords": [
+      -33.898,
+      151.179
+    ],
+    "address": "Illustrative location, Newtown NSW 2042",
+    "timezone": "Australia/Sydney",
+    "temporary": false,
+    "demo": true,
+    "hours": [
+      [
+        [
+          600,
+          1020
+        ]
+      ],
+      [
+        [
+          600,
+          1020
+        ]
+      ],
+      [
+        [
+          600,
+          1020
+        ]
+      ],
+      [
+        [
+          600,
+          1020
+        ]
+      ],
+      [
+        [
+          600,
+          1020
+        ]
+      ],
+      [
+        [
+          600,
+          1020
+        ]
+      ],
+      []
+    ],
+    "hoursText": [
+      "10 am - 5 pm",
+      "10 am - 5 pm",
+      "10 am - 5 pm",
+      "10 am - 5 pm",
+      "10 am - 5 pm",
+      "10 am - 5 pm",
+      "Closed"
+    ]
+  },
+  {
+    "id": "sample-04",
+    "name": "Second Turn Op Shop",
+    "slug": "sample-04-second-turn-op-shop",
+    "locality": "West End",
+    "state": "QLD",
+    "postcode": "4101",
+    "metro": "Brisbane",
+    "coords": [
+      -27.478,
+      153.011
+    ],
+    "address": "Illustrative location, West End QLD 4101",
+    "timezone": "Australia/Brisbane",
+    "chain": "Second Turn",
+    "temporary": false,
+    "demo": true,
+    "hours": [
+      [
+        [
+          600,
+          1020
+        ]
+      ],
+      [
+        [
+          600,
+          1020
+        ]
+      ],
+      [
+        [
+          600,
+          1020
+        ]
+      ],
+      [
+        [
+          600,
+          1020
+        ]
+      ],
+      [
+        [
+          600,
+          1020
+        ]
+      ],
+      [
+        [
+          600,
+          1020
+        ]
+      ],
+      []
+    ],
+    "hoursText": [
+      "10 am - 5 pm",
+      "10 am - 5 pm",
+      "10 am - 5 pm",
+      "10 am - 5 pm",
+      "10 am - 5 pm",
+      "10 am - 5 pm",
+      "Closed"
+    ]
+  },
+  {
+    "id": "sample-05",
+    "name": "Little Loop Op Shop",
+    "slug": "sample-05-little-loop-op-shop",
+    "locality": "Darwin City",
+    "state": "NT",
+    "postcode": "0800",
+    "metro": "Darwin",
+    "coords": [
+      -12.463,
+      130.845
+    ],
+    "address": "Illustrative location, Darwin City NT 0800",
+    "timezone": "Australia/Darwin",
+    "temporary": false,
+    "demo": true,
+    "hours": [
+      [
+        [
+          600,
+          1020
+        ]
+      ],
+      [
+        [
+          600,
+          1020
+        ]
+      ],
+      [
+        [
+          600,
+          1020
+        ]
+      ],
+      [
+        [
+          600,
+          1020
+        ]
+      ],
+      [
+        [
+          600,
+          1020
+        ]
+      ],
+      [
+        [
+          600,
+          1020
+        ]
+      ],
+      []
+    ],
+    "hoursText": [
+      "10 am - 5 pm",
+      "10 am - 5 pm",
+      "10 am - 5 pm",
+      "10 am - 5 pm",
+      "10 am - 5 pm",
+      "10 am - 5 pm",
+      "Closed"
+    ]
+  },
+  {
+    "id": "sample-06",
+    "name": "The Good Hanger",
+    "slug": "sample-06-the-good-hanger",
+    "locality": "Newtown",
+    "state": "VIC",
+    "postcode": "3220",
+    "metro": "Geelong",
+    "coords": [
+      -38.151,
+      144.332
+    ],
+    "address": "Illustrative location, Newtown VIC 3220",
+    "timezone": "Australia/Melbourne",
+    "temporary": true,
+    "demo": true,
+    "hours": [
+      [
+        [
+          600,
+          1020
+        ]
+      ],
+      [
+        [
+          600,
+          1020
+        ]
+      ],
+      [
+        [
+          600,
+          1020
+        ]
+      ],
+      [
+        [
+          600,
+          1020
+        ]
+      ],
+      [
+        [
+          600,
+          1020
+        ]
+      ],
+      [
+        [
+          600,
+          1020
+        ]
+      ],
+      []
+    ],
+    "hoursText": [
+      "10 am - 5 pm",
+      "10 am - 5 pm",
+      "10 am - 5 pm",
+      "10 am - 5 pm",
+      "10 am - 5 pm",
+      "10 am - 5 pm",
+      "Closed"
+    ]
+  },
+  {
+    "id": "sample-07",
+    "name": "Again & Co. Op Shop",
+    "slug": "sample-07-again-co-op-shop",
+    "locality": "Northbridge",
+    "state": "WA",
+    "postcode": "6003",
+    "metro": "Perth",
+    "coords": [
+      -31.947,
+      115.856
+    ],
+    "address": "Illustrative location, Northbridge WA 6003",
+    "timezone": "Australia/Perth",
+    "temporary": false,
+    "demo": true,
+    "hours": null,
+    "hoursText": null
+  }
+]

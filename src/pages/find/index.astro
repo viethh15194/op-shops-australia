@@ -1,0 +1,38 @@
+---
+import Layout from '../../components/Layout.astro';
+import Ad from '../../components/Ad.astro';
+import { shops,usingFixtures } from '../../lib/catalog';
+import { states } from '../../lib/shared.mjs';
+const stateCodes = [...new Set(shops.map(shop => shop.state))].sort();
+const chains = [...new Set(shops.flatMap(shop => shop.chain ? [shop.chain] : []))].sort();
+---
+<Layout title="Search op shops" noindex>
+  <section class="page-head"><p class="eyebrow">Australian op shop directory</p><h1>Find op shops</h1><p>Search by suburb, postcode, shop name, city or state.</p></section>
+  {usingFixtures && <p class="callout">Illustrative listings for testing. These shops are fictional.</p>}
+  <form id="filters" class="filters" data-states={stateCodes.join(',')} action="/find/">
+    <div class="search-row"><label class="grow">Suburb, postcode or shop name<input name="q" type="search" placeholder="e.g. Newtown or 0800" /></label><button>Search</button></div>
+    <div class="filter-grid">
+      <label>State or territory<select name="state"><option value="">All states</option>{stateCodes.map(code => <option value={code}>{states[code as keyof typeof states][0]}</option>)}</select></label>
+      <label>Shop chain<select name="chain"><option value="">All chains</option>{chains.map(chain => <option>{chain}</option>)}</select></label>
+      <label>Sort by<select name="sort"><option value="">Relevance</option><option value="rating">Google rating</option><option value="distance" disabled>Distance</option></select></label>
+      <label class="check"><input type="checkbox" name="open" value="1" /> Open now</label>
+    </div>
+    <button class="quiet" id="locate" type="button">? Use my location</button>
+    <p id="location-status" role="status"></p>
+  </form>
+  <noscript><p>Enable JavaScript for search or <a href="/">browse areas from the home page</a>.</p></noscript>
+  <p class="muted">Open now uses listed hours. Public holiday hours may differ.</p>
+  <section aria-labelledby="result-summary"><h2 id="result-summary" tabindex="-1" role="status">Loading shops.</h2>
+    <div id="results" class="results"></div>
+    <button id="more" type="button" hidden>Show more shops</button>
+  </section>
+  <template id="listing-ad"><Ad placement="results" /></template>
+  <template id="shop-card">
+    <article class="shop-card">
+      <p class="eyebrow" data-area></p><h3><a data-name></a></h3><p data-address></p>
+      <p class="status" data-status></p><p data-rating></p><p data-distance></p>
+      <div class="actions"><a data-details>View shop</a><a data-directions rel="noopener noreferrer">Directions ?</a></div>
+    </article>
+  </template>
+</Layout>
+<script src="../../lib/search.ts"></script>
