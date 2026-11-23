@@ -75,3 +75,7 @@ button:disabled{opacity:.6;cursor:wait}
 .plain-list li{padding:.6rem 0;border-bottom:1px solid var(--line)}
 .advert{grid-column:1/-1;text-align:center;padding:1rem;margin-block:1rem;min-height:6rem;border:1px solid var(--line);color:var(--sub);font-size:.85rem}
 @media(min-width:740px){.hero{grid-template-columns:minmax(0,1.85fr) minmax(0,1fr)}.hero-art{display:block}}
+
+.search-feedback p{margin:0 0 .75rem}
+.hours dd{min-width:0;overflow-wrap:anywhere}
+@media(max-width:480px){.search-row>button{width:100%}.search-feedback button{width:100%}}

@@ -3,6 +3,10 @@ import type { Shop } from './catalog';
 
 const form = document.querySelector<HTMLFormElement>('#filters')!;
 const field = (name: string) => form.elements.namedItem(name) as HTMLInputElement & HTMLSelectElement;
+const feedback = document.querySelector<HTMLElement>('#search-feedback')!;
+const feedbackText = document.querySelector<HTMLElement>('#search-feedback-text')!;
+const clear = document.querySelector<HTMLButtonElement>('#clear-search')!;
+const retry = document.querySelector<HTMLButtonElement>('#retry-search')!;
 const results = document.querySelector<HTMLElement>('#results')!;
 const summary = document.querySelector<HTMLElement>('#result-summary')!;
 const more = document.querySelector<HTMLButtonElement>('#more')!;
@@ -61,6 +65,13 @@ async function render(focusIndex?: number) {
   const turn = ++generation;
   const state = field('state').value;
   const filters = { q:field('q').value, state, chain:field('chain').value, open:field('open').checked, sort:field('sort').value, origin };
+  feedback.hidden = true;
+  results.setAttribute('aria-busy','true');
+  if (focusIndex === undefined) {
+    results.replaceChildren();
+    more.hidden = true;
+    summary.textContent = 'Loading shops…';
+  }
   try {
     const lists = await Promise.all((state ? [state] : states).map(load));
     if (turn !== generation) return;
@@ -75,9 +86,10 @@ async function render(focusIndex?: number) {
     const count = matches.length;
     summary.textContent = count ? count + (count === 1 ? ' shop' : ' shops') : 'No shops found';
     if (!count) {
-      const tip = document.createElement('p');
-      tip.textContent = 'Try a different search or clear one of the filters.';
-      results.append(tip);
+      feedbackText.textContent = 'Try a nearby suburb, a postcode or a shorter shop name.';
+      clear.hidden = false;
+      retry.hidden = true;
+      feedback.hidden = false;
     }
     more.hidden = limit >= count;
     if (focusIndex !== undefined) results.querySelectorAll<HTMLAnchorElement>('[data-name]')[focusIndex]?.focus();
@@ -86,7 +98,13 @@ async function render(focusIndex?: number) {
     if (turn !== generation) return;
     results.replaceChildren();
     more.hidden = true;
-    summary.textContent = 'Could not load shops. Try searching again.';
+    summary.textContent = 'Could not load shops';
+    feedbackText.textContent = 'Check your connection and try loading the results again.';
+    clear.hidden = true;
+    retry.hidden = false;
+    feedback.hidden = false;
+  } finally {
+    if (turn === generation) results.removeAttribute('aria-busy');
   }
 }
 function requestLocation() {
@@ -113,6 +131,18 @@ form.addEventListener('change',event => {
 });
 more.addEventListener('click',() => { const firstNew = limit; limit += 12; void render(firstNew); });
 locate.addEventListener('click',requestLocation);
+clear.addEventListener('click',() => {
+  origin = null;
+  for (const name of ['q','state','chain','sort']) field(name).value = '';
+  field('open').checked = false;
+  field('sort').querySelector<HTMLOptionElement>('[value="distance"]')!.disabled = true;
+  locationStatus.textContent = '';
+  limit = 12;
+  store();
+  field('q').focus();
+  void render();
+});
+retry.addEventListener('click',() => { summary.focus(); void render(); });
 addEventListener('popstate',() => { restore(); limit = 12; void render(); });
 restore();
 if (new URLSearchParams(location.search).has('near')) {

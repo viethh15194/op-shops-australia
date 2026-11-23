@@ -24,6 +24,11 @@ const chains = [...new Set(shops.flatMap(shop => shop.chain ? [shop.chain] : [])
   <p class="muted">Open now uses listed hours. Public holiday hours may differ.</p>
   <section aria-labelledby="result-summary"><h2 id="result-summary" tabindex="-1" role="status">Loading shops.</h2>
     <div id="results" class="results"></div>
+    <div class="detail-panel search-feedback" id="search-feedback" hidden>
+      <p id="search-feedback-text"></p>
+      <button class="secondary" id="clear-search" type="button">Clear search and filters</button>
+      <button class="secondary" id="retry-search" type="button" hidden>Try again</button>
+    </div>
     <button id="more" type="button" hidden>Show more shops</button>
   </section>
   <template id="listing-ad"><Ad placement="results" /></template>
