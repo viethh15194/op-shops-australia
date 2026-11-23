@@ -40,7 +40,7 @@ async function main() {
         await page.getByRole('link',{name:'Find shops in this area'}).click();
         await page.getByRole('searchbox').fill('no-matching-shop-example');
         await page.getByRole('button',{name:'Search',exact:true}).click();
-        await page.getByRole('heading',{name:'No shops found'}).waitFor();
+        await page.getByText('No shops found',{exact:true}).waitFor();
         await page.getByRole('button',{name:'Clear search and filters'}).click();
         await page.getByRole('link',{name:'Little Loop Op Shop',exact:true}).waitFor();
         assert.equal(new URL(page.url()).search,'');
